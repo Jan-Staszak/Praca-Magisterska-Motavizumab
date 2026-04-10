@@ -1,0 +1,65 @@
+---
+title: "Plot Digitized Data"
+author:
+  - name: "Jan Staszak, Paweł Wiczling*"
+    affiliations:
+      - name: "Department of Biopharmaceutics and Pharmacodynamics, Medical University of Gdańsk, Gen. J. Hallera 107, 80-416 Gdańsk, Poland"
+date: "`r format(Sys.Date())`"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true  
+    code-tools: true
+    fig-width: 7
+    fig-height: 7
+---
+
+# Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, message=FALSE, error=FALSE, warning=FALSE, comment=NA, out.width='95%')
+```
+
+```{r packages, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(here)
+library(scales)
+# select<-dplyr::select
+# filter<-dplyr::filter
+set.seed(10271998) 
+```
+
+# Read data
+
+```{r}
+df = data.table::fread(file = here("data", "derived", "MonolixAll.csv"), na.strings = '.') %>%
+  filter(MDV==0) %>%
+  mutate(Drug_f = case_when(Drug=="Mota" ~ "Motavizumab",
+                            Drug=="YTE" ~ "Mota-YTE"))
+```
+
+# Plot data
+```{r plot raw data}
+p1 <- df%>%
+  ggplot(aes(x=Time, y=DV, color=as.factor(Dose)))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~Drug_f) +
+  theme_bw()+
+  scale_y_continuous(trans='log10',
+                      breaks=trans_breaks('log10', function(x) 10^x),
+                      labels=trans_format('log10', math_format(10^.x)))+
+  scale_x_continuous(breaks=trans_breaks(function(x) x/30, function(x) 30*x),
+                       labels=function(x) sprintf("%.0f", x)) +
+  labs(x="Time (d)", y="Concentration (ug/mL)", color = "Dose, mg/kg")
+
+p1  
+```
+
+# Session info
+
+```{r}
+sessionInfo()
+```
