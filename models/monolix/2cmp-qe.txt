@@ -1,0 +1,28 @@
+DESCRIPTION:
+2 cmpt PK model QE
+
+[LONGITUDINAL]
+input = {V1, K20, K12, KINT, KD, AR0}
+
+PK:
+depot(target = A1, p = 1)
+
+EQUATION:
+odeType = stiff
+
+; Initial conditions
+t_0 = 0
+A1_0 = 0
+At_0 = 0
+
+XYZ = At - AR0 - KD
+A2 = 0.5*(XYZ + sqrt(XYZ^2 + 4*KD*At))
+
+; Ordinary Differential Equations
+ddt_A1 = -K12*A1 + KINT*AR0*A2/(KD+A2) 
+ddt_At =  K12*A1 - KINT*AR0*A2/(KD+A2) - K20*A2
+
+C1 = A1/V1
+
+OUTPUT:
+output = {C1}

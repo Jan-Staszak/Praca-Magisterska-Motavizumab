@@ -1,0 +1,9 @@
+id,Occasion,eta_V_SAEM,eta_k20_SAEM,eta_k12_SAEM,eta_k21_SAEM,Dose,Drug
+1,1,0,0,0,0,1,YTE
+1,2,0,0,0,0,3,YTE
+1,3,0,0,0,0,15,YTE
+1,4,0,0,0,0,30,YTE
+2,1,0,0,0,0,1,Mota
+2,2,0,0,0,0,3,Mota
+2,3,0,0,0,0,15,Mota
+2,4,0,0,0,0,30,Mota

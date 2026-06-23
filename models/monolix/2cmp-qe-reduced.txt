@@ -1,0 +1,29 @@
+DESCRIPTION:
+2 cmpt PK model 
+
+[LONGITUDINAL]
+input = {V1, K20, K12, KREC, AR0KD}
+
+PK:
+depot(target = A1, p = 1)
+
+EQUATION:
+odeType = stiff
+
+; Initial conditions
+t_0 = 0
+A1_0 = 0
+Atot_0 = 0
+
+alpha = 1.0 + AR0KD;      
+k_rec = KREC * AR0KD;      
+k21   = k_rec / alpha;     
+kel   = K20   / alpha; 
+ 
+; Ordinary Differential Equations
+ddt_A1 = -K12 * A1 + k21 * Atot;
+ddt_Atot =  K12 * A1 - (k21 + kel) * Atot;
+C1 = A1/V1
+
+OUTPUT:
+output = {C1}

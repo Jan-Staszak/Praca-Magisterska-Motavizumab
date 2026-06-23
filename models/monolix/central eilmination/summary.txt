@@ -1,0 +1,81 @@
+********************************************************************************
+*                         central eilmination.mlxtran                          *
+*                         June 23, 2026 at 11:14:54                            *
+*                         Monolix version : 2024R1                             *
+********************************************************************************
+
+
+ESTIMATION OF THE POPULATION PARAMETERS ________________________________________
+
+Fixed Effects ----------------------------     se_sa    rse(%)   P2.5_sa  P97.5_sa
+V_pop             :                 0.0454   0.00346      7.61    0.0392    0.0527
+k20_pop           :                 0.0581   0.00442      7.62      0.05    0.0674
+beta_k20_Drug_YTE :                  -1.29    0.0492      3.81     -1.39     -1.19
+k12_pop           :                  0.069     0.021      30.4    0.0394     0.121
+beta_k12_Drug_YTE :                  0.683     0.479      70.1    -0.255      1.62
+k21_pop           :                 0.0463   0.00876      18.9    0.0323    0.0665
+beta_k21_Drug_YTE :                   1.17     0.464      39.7      0.26      2.08
+
+Error Model Parameters -------------------
+b                 :                  0.266    0.0176       6.6     0.234     0.303
+
+Elapsed time (seconds):      4.8
+Exploratory phase iterations:        6 (Autostop)
+Smoothing phase iterations:          2 (Autostop)
+
+ _______________________________________________________________________________
+
+
+
+
+ESTIMATION OF THE FISHER INFORMATION MATRIX ____________________________________
+
+
+Estimation of the Fisher information matrix by Stochastic Approximation --------
+
+Correlation Matrix :
+            V_pop         1
+          k20_pop  -0.88564         1
+beta_k20_Drug_YTE  -0.14364  -0.18937         1
+          k12_pop  -0.52946   0.72323  -0.30663         1
+beta_k12_Drug_YTE  -0.22614  0.053746   0.34182  -0.30725         1
+          k21_pop  -0.27618   0.46494  -0.29517   0.91216  -0.39376         1
+beta_k21_Drug_YTE  -0.13855  0.037568   0.21555  -0.22964   0.95264  -0.32815         1
+                b   0.110720.00028414-0.0076593-0.00027374-0.0045801-0.00017657-0.0027996         1
+
+                               min       max   max/min
+Eigen values           :     0.013       3.1   2.3e+02
+
+Elapsed time (seconds):     0.38
+Iterations:        1 (Autostop)
+
+ -------------------------------------------------------------------------------
+
+ _______________________________________________________________________________
+
+
+
+ESTIMATION OF THE LOG-LIKELIHOOD _______________________________________________
+
+                                                            (is)
+-2 x log-likelihood                       (OFV) :         837.25
+Akaike Information Criteria               (AIC) :         853.25
+Corrected Bayesian Information Criteria  (BICc) :         876.25
+Bayesian Information Criteria             (BIC) :         853.88
+
+Elapsed time                          (seconds) :           0.00
+CPU time                              (seconds) :           0.00
+MonteCarlo size (is):        1 (Fixed number of iterations)
+
+
+[Importance Sampling] Standard error        : 0.000
+                      Sampling distribution : T-distribution with 5 degrees of freedom
+
+ _______________________________________________________________________________
+
+DATASET INFORMATION
+Number of individuals: 2
+Number of subjects-occasion: 8
+Number of observations (DV): 131
+Number of doses: 8
+

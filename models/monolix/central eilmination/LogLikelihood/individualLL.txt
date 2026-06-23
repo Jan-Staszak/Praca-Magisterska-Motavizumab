@@ -1,0 +1,3 @@
+id,importanceSampling
+1,473.627115
+2,363.620440
