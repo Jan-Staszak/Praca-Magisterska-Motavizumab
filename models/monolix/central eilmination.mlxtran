@@ -23,37 +23,38 @@ input = {Dose, Drug}
 Drug = {type=categorical, categories={'Mota', 'YTE'}}
 
 [INDIVIDUAL]
-input = {Cl_pop, Q_pop, V1_pop, V2_pop, Drug, beta_Cl_Drug_YTE, beta_Q_Drug_YTE}
+input = {V_pop, k12_pop, k20_pop, k21_pop, Drug, beta_k20_Drug_YTE, beta_k21_Drug_YTE, beta_k12_Drug_YTE}
 
 Drug = {type=categorical, categories={'Mota', 'YTE'}}
 
 DEFINITION:
-Cl = {distribution=logNormal, typical=Cl_pop, covariate=Drug, coefficient={0, beta_Cl_Drug_YTE}, no-variability}
-Q = {distribution=logNormal, typical=Q_pop, covariate=Drug, coefficient={0, beta_Q_Drug_YTE}, no-variability}
-V1 = {distribution=logNormal, typical=V1_pop, no-variability}
-V2 = {distribution=logNormal, typical=V2_pop, no-variability}
+V = {distribution=logNormal, typical=V_pop, no-variability}
+k12 = {distribution=logNormal, typical=k12_pop, covariate=Drug, coefficient={0, beta_k12_Drug_YTE}, no-variability}
+k20 = {distribution=logNormal, typical=k20_pop, covariate=Drug, coefficient={0, beta_k20_Drug_YTE}, no-variability}
+k21 = {distribution=logNormal, typical=k21_pop, covariate=Drug, coefficient={0, beta_k21_Drug_YTE}, no-variability}
 
 [LONGITUDINAL]
 input = {b}
 
-file = 'lib:bolus_2cpt_ClV1QV2.txt'
+file = '2cmp_central_administration.txt'
 
 DEFINITION:
-DV = {distribution=normal, prediction=Cc, errorModel=proportional(b)}
+DV = {distribution=normal, prediction=C, errorModel=proportional(b)}
 
 <FIT>
 data = 'DV'
 model = DV
 
 <PARAMETER>
-Cl_pop = {value=0.00135, method=MLE}
-Q_pop = {value=0.00202, method=MLE}
-V1_pop = {value=0.0587, method=MLE}
-V2_pop = {value=0.0798, method=MLE}
-b = {value=0.3, method=MLE}
-beta_Cl_Drug_YTE = {value=-1, method=MLE}
-beta_Q_Drug_YTE = {value=1, method=MLE}
+V_pop = {value=0.05164783, method=MLE}
+b = {value=0.2592947, method=MLE}
+beta_k12_Drug_YTE = {value=1.3624395, method=MLE}
+beta_k20_Drug_YTE = {value=-1.0298179, method=MLE}
+beta_k21_Drug_YTE = {value=1.388403, method=MLE}
 c = {value=1, method=FIXED}
+k12_pop = {value=0.05111, method=MLE}
+k20_pop = {value=0.05175762, method=MLE}
+k21_pop = {value=0.0412675, method=MLE}
 
 <MONOLIX>
 

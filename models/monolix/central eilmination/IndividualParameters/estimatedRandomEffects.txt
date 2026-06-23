@@ -1,4 +1,4 @@
-id,Occasion,eta_Cl_SAEM,eta_V1_SAEM,eta_Q_SAEM,eta_V2_SAEM,Dose,Drug
+id,Occasion,eta_V_SAEM,eta_k20_SAEM,eta_k12_SAEM,eta_k21_SAEM,Dose,Drug
 1,1,0,0,0,0,1,YTE
 1,2,0,0,0,0,3,YTE
 1,3,0,0,0,0,15,YTE

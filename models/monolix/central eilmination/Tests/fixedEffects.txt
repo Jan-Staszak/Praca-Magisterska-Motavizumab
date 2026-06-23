@@ -1,3 +1,4 @@
 parameter,statistics(sa),p-value(sa)
-beta_Cl_Drug_YTE,23.4819,<2.2e-16
-beta_Q_Drug_YTE,3.63711,0.000276
+beta_k20_Drug_YTE,26.2348,<2.2e-16
+beta_k12_Drug_YTE,1.42638,0.154
+beta_k21_Drug_YTE,2.52006,0.0117

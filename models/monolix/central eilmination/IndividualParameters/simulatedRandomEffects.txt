@@ -1,4 +1,4 @@
-rep,id,Occasion,eta_Cl,eta_V1,eta_Q,eta_V2,Dose,Drug
+rep,id,Occasion,eta_V,eta_k20,eta_k12,eta_k21,Dose,Drug
 1,1,1,0,0,0,0,1,YTE
 2,1,1,0,0,0,0,1,YTE
 3,1,1,0,0,0,0,1,YTE
