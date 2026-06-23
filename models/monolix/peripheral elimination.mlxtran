@@ -1,0 +1,74 @@
+<DATAFILE>
+
+[FILEINFO]
+file={path='MonolixAll.csv'}
+delimiter = comma
+header={ID, Time, DV, AMT, MDV, Dose, Drug, Occasion}
+
+[CONTENT]
+ID = {use=identifier}
+Time = {use=time}
+DV = {use=observation, type=continuous}
+AMT = {use=amount}
+MDV = {use=missingdependentvariable}
+Dose = {use=covariate, type=categorical}
+Drug = {use=covariate, type=categorical}
+Occasion = {use=occasion}
+
+<MODEL>
+
+[COVARIATE]
+input = {Dose, Drug}
+
+Dose = {type=categorical, categories={'1', '15', '3', '30'}}
+Drug = {type=categorical, categories={'Mota', 'YTE'}}
+
+[INDIVIDUAL]
+input = {V_pop, k12_pop, k20_pop, k21_pop, Drug, beta_k20_Drug_YTE, beta_k21_Drug_YTE}
+
+Drug = {type=categorical, categories={'Mota', 'YTE'}}
+
+DEFINITION:
+V = {distribution=logNormal, typical=V_pop, no-variability}
+k12 = {distribution=logNormal, typical=k12_pop, no-variability}
+k20 = {distribution=logNormal, typical=k20_pop, covariate=Drug, coefficient={0, beta_k20_Drug_YTE}, no-variability}
+k21 = {distribution=logNormal, typical=k21_pop, covariate=Drug, coefficient={0, beta_k21_Drug_YTE}, no-variability}
+
+[LONGITUDINAL]
+input = {b}
+
+file = '2cmp_peripheral_administration.txt'
+
+DEFINITION:
+DV = {distribution=normal, prediction=C, errorModel=proportional(b)}
+
+<FIT>
+data = 'DV'
+model = DV
+
+<PARAMETER>
+V_pop = {value=0.0593, method=MLE}
+b = {value=0.3, method=MLE}
+beta_k20_Drug_YTE = {value=0.4, method=MLE}
+beta_k21_Drug_YTE = {value=0.4, method=MLE}
+c = {value=1, method=FIXED}
+k12_pop = {value=0.0531, method=MLE}
+k20_pop = {value=0.0044, method=MLE}
+k21_pop = {value=0.00776, method=MLE}
+
+<MONOLIX>
+
+[TASKS]
+populationParameters()
+individualParameters(method = none )
+fim(method = StochasticApproximation)
+logLikelihood(method = ImportanceSampling)
+
+[PLOTS]
+run = true
+plots = {indfits = {selected = true}, parameterdistribution = {selected = true}, obspred = {selected = true}, covariancemodeldiagnosis = {selected = true}, covariatemodeldiagnosis = {selected = true}, vpc = {selected = true}, residualsscatter = {selected = true}, residualsdistribution = {selected = true}, randomeffects = {selected = true}, saemresults = {selected = true}}
+
+[SETTINGS]
+GLOBAL:
+exportpath = 'peripheral elimination'
+

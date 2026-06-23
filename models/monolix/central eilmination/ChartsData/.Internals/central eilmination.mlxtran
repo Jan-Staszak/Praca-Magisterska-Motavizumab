@@ -1,0 +1,73 @@
+<DATAFILE>
+
+[FILEINFO]
+file={path='../../../MonolixAll.csv'}
+delimiter = comma
+header={ID, Time, DV, AMT, MDV, Dose, Drug, Occasion}
+
+[CONTENT]
+ID = {use=identifier}
+Time = {use=time}
+DV = {use=observation, type=continuous}
+AMT = {use=amount}
+MDV = {use=missingdependentvariable}
+Dose = {use=covariate, type=continuous}
+Drug = {use=covariate, type=categorical}
+Occasion = {use=occasion}
+
+<MODEL>
+
+[COVARIATE]
+input = {Dose, Drug}
+
+Drug = {type=categorical, categories={'Mota', 'YTE'}}
+
+[INDIVIDUAL]
+input = {Cl_pop, Q_pop, V1_pop, V2_pop, Drug, beta_Cl_Drug_YTE, beta_Q_Drug_YTE}
+
+Drug = {type=categorical, categories={'Mota', 'YTE'}}
+
+DEFINITION:
+Cl = {distribution=logNormal, typical=Cl_pop, covariate=Drug, coefficient={0, beta_Cl_Drug_YTE}, no-variability}
+Q = {distribution=logNormal, typical=Q_pop, covariate=Drug, coefficient={0, beta_Q_Drug_YTE}, no-variability}
+V1 = {distribution=logNormal, typical=V1_pop, no-variability}
+V2 = {distribution=logNormal, typical=V2_pop, no-variability}
+
+[LONGITUDINAL]
+input = {b}
+
+file = 'lib:bolus_2cpt_ClV1QV2.txt'
+
+DEFINITION:
+DV = {distribution=normal, prediction=Cc, errorModel=proportional(b)}
+
+<FIT>
+data = 'DV'
+model = DV
+
+<PARAMETER>
+Cl_pop = {value=0.00135, method=MLE}
+Q_pop = {value=0.00202, method=MLE}
+V1_pop = {value=0.0587, method=MLE}
+V2_pop = {value=0.0798, method=MLE}
+b = {value=0.3, method=MLE}
+beta_Cl_Drug_YTE = {value=-1, method=MLE}
+beta_Q_Drug_YTE = {value=1, method=MLE}
+c = {value=1, method=FIXED}
+
+<MONOLIX>
+
+[TASKS]
+populationParameters()
+individualParameters(method = none )
+fim(method = StochasticApproximation)
+logLikelihood(method = ImportanceSampling)
+
+[PLOTS]
+run = true
+plots = {indfits = {selected = true}, parameterdistribution = {selected = true}, obspred = {selected = true}, covariancemodeldiagnosis = {selected = true}, covariatemodeldiagnosis = {selected = true}, residualsscatter = {selected = true}, residualsdistribution = {selected = true}, randomeffects = {selected = true}, saemresults = {selected = true}}
+
+[SETTINGS]
+GLOBAL:
+exportpath = '../../'
+

@@ -1,0 +1,7 @@
+[PROPERTIES]
+outputplot%3ADV%3A0\legend=true
+outputplot%3ADV%3A0\yLog=true
+
+[STRATIFY]
+indfits%3ADV%3A0\color=Drug
+outputplot%3ADV%3A0\color=Drug
