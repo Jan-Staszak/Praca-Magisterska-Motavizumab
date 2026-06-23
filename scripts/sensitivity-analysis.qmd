@@ -1,0 +1,81 @@
+---
+title: "Sensititvity analysis"
+author:
+  - name: "Jan Staszak, Paweł Wiczling*"
+    affiliations:
+      - name: "Department of Biopharmaceutics and Pharmacodynamics, Medical University of Gdańsk, Gen. J. Hallera 107, 80-416 Gdańsk, Poland"
+date: "`r format(Sys.Date())`"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true  
+    code-tools: true
+    fig-width: 7
+    fig-height: 7
+---
+
+# Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, message=FALSE, error=FALSE, warning=FALSE, comment=NA, out.width='95%')
+```
+
+```{r packages, message=FALSE}
+library(mrgsolve)
+library(dplyr)
+library(ggplot2)
+library(mrgsim.sa)
+# select<-dplyr::select
+# filter<-dplyr::filter
+set.seed(10271998) 
+```
+
+# Introductions
+
+```{r}
+code3 <- '
+#
+$PARAM V1=0.04, K12=0.2, KEL=0.02, KREC=0.2, ALPHA=0.5
+
+$CMT A1 Atot
+
+$MAIN
+
+$ODE
+dxdt_A1 =   -K12 * A1 + KREC * ALPHA * Atot;
+dxdt_Atot =  K12 * A1 - (KREC * ALPHA + KEL * (1-ALPHA)) * Atot;
+
+$TABLE
+
+double C1  = A1 / V1;   
+
+$capture C1;
+'
+
+mod3 <- mcode("modelQEred1", code3)
+
+out5 <- 
+  mod3 %>% 
+  ev(amt = 15) %>% 
+  select_par(V1, K12, KEL, KREC, ALPHA) %>% 
+  parseq_fct(.n = 3, .geo = TRUE) %>% 
+  sens_each() 
+
+
+sens_plot(out5, "C1", grid = TRUE, logy = T, ylab = "Stężenie", xlab = "Czas, dni", palette = ggplot2::scale_color_discrete()) +
+  patchwork::plot_layout(axis_titles = "collect") &
+  theme(
+    legend.text = element_text(size = 7),
+    legend.title = element_text(size = 8),
+    legend.key.size = unit(0.4, "cm")
+  )
+
+```
+
+
+# Session info
+
+```{r}
+sessionInfo()
+```
